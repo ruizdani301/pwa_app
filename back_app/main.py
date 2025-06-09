@@ -5,9 +5,9 @@ from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 
 from app.routes.login import login_bp
-# from app.routes.bancos import bancos_bp
-# from app.routes.cuentas import cuentas_bp
-# from app.routes.saldos import saldos_bp
+from app.routes.banks import banks_bp
+from app.routes.accounts import accounts_bp
+from app.routes.transactions import transactions_bp
 from app.routes.create import create_bp
 from app.conection_db import db
 
@@ -22,9 +22,9 @@ def create_app():
 
     # Registrar blueprints
     app.register_blueprint(login_bp, url_prefix='/api/v1/login')
-    # app.register_blueprint(bancos_bp, url_prefix='/api/v1/bancos')
-    # app.register_blueprint(cuentas_bp, url_prefix='/api/v1/cuentas')
-    # app.register_blueprint(saldos_bp, url_prefix='/api/v1/saldos')
+    app.register_blueprint(banks_bp, url_prefix='/api/v1/banks')
+    app.register_blueprint(accounts_bp, url_prefix='/api/v1/accounts')
+    app.register_blueprint(transactions_bp, url_prefix='/api/v1/transactions')
     app.register_blueprint(create_bp, url_prefix='/api/v1/create')
 
     return app
