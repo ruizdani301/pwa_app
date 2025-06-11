@@ -24,18 +24,18 @@ def transactions():
     link_id = data['link_account']
    
 
-    response = get_transactions(id_account, link_id)
-    saldos_json = response.json()
-    if len(saldos_json['results']) == 0:
-        print("Actualizar las transacciones")
+    # response = get_transactions(id_account, link_id)
+    # saldos_json = response.json()
+    # if len(saldos_json['results']) == 0:
+    #     print("Actualizar las transacciones")
        
-        response = update_transactions(link_id, id_account)
-        if response.status_code == 202:
-            print("Se actualizaron las trasacciones")
-            response = get_transactions(id_account, link_id)
-        elif response.status_code == 400:
-            print("Error al actualizar las transacciones: ", response.text)
-            return jsonify({"error": "Error al actualizar las transacciones"}), 400
+    response = update_transactions(link_id, id_account)
+    if response.status_code == 202:
+        print("Se actualizaron las trasacciones")
+        response = get_transactions(id_account, link_id)
+    elif response.status_code == 400:
+        print("Error al actualizar las transacciones: ", response.text)
+        return jsonify({"error": "Error al actualizar las transacciones"}), 400
     saldos_json = response.json()
     if len(saldos_json['results']) == 0:
         return jsonify({"error": "No hay trasacciones para esta cuenta"}), 200

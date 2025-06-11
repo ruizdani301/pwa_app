@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from config import Config
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
+#from flask_restplus import Api
 
 from app.routes.login import login_bp
 from app.routes.banks import banks_bp
@@ -18,6 +19,8 @@ def create_app():
     jwt = JWTManager(app)
     # Inicializar db con la app
     db.init_app(app)
+    # api = Api(app, version='1.0', title='Mi API',
+    #           description='Descripción de mi API', doc='/')
     
 
     # Registrar blueprints

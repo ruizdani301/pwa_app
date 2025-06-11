@@ -7,6 +7,7 @@ banks_bp = Blueprint('banks', __name__)
 
 
 all_banks = []
+id_set = set()
 @banks_bp.route('/', methods=['GET'])
 def get_banks():
 
@@ -30,21 +31,23 @@ def get_banks():
     response = requests.get(url, auth=(username, password))
     if response.status_code == 200:
         banks_data = response.json()
+        print(banks_data)
         for bank in banks_data["results"]:
             info_bank = {}
-              
+            if bank["id"] in id_set:
+                continue 
+            id_set.add(bank["id"])  
             info_bank["id"]= bank["id"]
             info_bank["name"]= bank["name"]
             info_bank["display_name"]= bank["display_name"]
             info_bank["country_code"]= bank["country_code"]
             info_bank["icon_logo"]= bank["icon_logo"]
             if bank["form_fields"][0]["type"] == "select":
-                for items in bank["form_fields"][0]["values"]:
-                    if "Identification" in items["label"]:
-                        info_bank["username_type"] = items["code"]
+                info_bank["username_type"] = bank["form_fields"][0]["values"][0]["code"]
+                       
             else:
                 info_bank["username_type"] = bank["form_fields"][0]["type"]
-                info_bank["type"]= "text"
+ 
             all_banks.append(info_bank)
                         
         
