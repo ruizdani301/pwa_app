@@ -6,6 +6,7 @@ from ..utils.register_link import register_link
 from werkzeug.security import check_password_hash
 from models.model import Usuario
 import time
+from flask_cors import cross_origin
 #from app.conection_db import session
 
 accounts_bp = Blueprint('accounts', __name__)
@@ -24,8 +25,11 @@ def get_accounts(link_reg):
 
 @accounts_bp.route('/', methods=['POST'])
 def accounts():
+
     try:
         data = request.get_json()
+        print("#####################################")
+        print(data['institution'])
 
         if not data:
             return jsonify({"error": "No se proporcionaron datos"}), 400
@@ -45,7 +49,7 @@ def accounts():
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
-    print("password correcto")
+    print("### LLego aqui password correcto ###")
     if not registered_link:
         print("registrando link")
         data = register_link(user, password, institution, username_type)

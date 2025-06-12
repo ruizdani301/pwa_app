@@ -22,6 +22,7 @@ def create_app():
     # api = Api(app, version='1.0', title='Mi API',
     #           description='Descripción de mi API', doc='/')
     
+    app.url_map.strict_slashes = False
 
     # Registrar blueprints
     app.register_blueprint(login_bp, url_prefix='/api/v1/login')
