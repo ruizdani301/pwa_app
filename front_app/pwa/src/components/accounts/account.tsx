@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getAccounts } from "../../function/function";
+import { getAccounts } from "../../utils/function";
 import type { InfoBanks } from "../../types";
 import type { returnAccounts } from "../../types";
 import type { InfoToTransaction } from "../../types";
@@ -18,18 +18,20 @@ type AccountPageProps = {
     React.SetStateAction<InfoToTransaction | null>
   >;
 };
+
 // const ned: InfoBanks = {
 //   institution: "erebor_br_retail",
 //   email: "ruizdani301@gmail.com",
 //   username_type: "text",
 //   password: "1234",
 //   registered_link: "none",
-// };
+// };{setInfoTRansaction}:setInfoTransaction
 function AccountPage({ infoBank, setInfoTransaction }: AccountPageProps) {
   //   const [dataBank, setDataBank] = useState<Bank[]>([]);
   const [infoReturnAccount, setReturnAccount] = useState<returnAccounts | null>(
     null
   );
+
   const navigate = useNavigate();
 
   const handleAccountName = (id: string, link: string) => {
@@ -54,7 +56,7 @@ function AccountPage({ infoBank, setInfoTransaction }: AccountPageProps) {
     // setInfoAccount(response);
     // console.log("la respuesta");
     // console.log(response);
-  }, []);
+  }, [infoBank]);
 
   //   const handleAccountName = (id: string, link: string) => {
   //
@@ -76,7 +78,7 @@ function AccountPage({ infoBank, setInfoTransaction }: AccountPageProps) {
                   <td className="border px-4 py-2 text-center">{link[1]}</td>
                 </tr>
               )
-            )}
+            )}{" "}
           </tbody>
         </table>
       </div>
