@@ -19,3 +19,8 @@ interface returnAccounts {
   [key: string]: [string, string];
 }
 export type { returnAccounts };
+
+interface returnTransactions {
+  [key: string]: number;
+}
+export type { returnTransactions };

@@ -22,8 +22,7 @@ async function getTransactions(infoTransaction: InfoToTransaction) {
     body: JSON.stringify(infoTransaction),
   });
   const data = await response.json();
-  return data.cuentas;
   console.log(data);
-  console.log(data.statuscode);
+  return data;
 }
 export { getTransactions };

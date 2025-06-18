@@ -1,50 +1,65 @@
 import type { InfoToTransaction } from "../../types";
 import { useEffect, useState } from "react";
+import { getTransactions } from "../../utils/function";
+import type { returnTransactions } from "../../types";
 
 type TransactionPropms = {
   infoTransaction: InfoToTransaction | null;
 };
 // falta recorrer infoTrasaction y pintarlo en el front , trae las trasacciones y ingresos y egeresos asi como el total
 function TransactionPage({ infoTransaction }: TransactionPropms) {
+  const [infoReturnTransaction, setReturnTransaction] = useState<
+    returnTransactions[] | null
+  >(null);
   useEffect(() => {
     const fetchData = async () => {
       if (infoTransaction) {
-        const accountData = await getTransactions(infoTransaction);
-        console.log("MOSTRANDO TODAS LAS CUENTAS DATA ");
-        console.log(accountData);
-        setReturnAccount(accountData);
+        const transactionData = await getTransactions(infoTransaction);
+        console.log(transactionData);
+        if (
+          transactionData.length === 2 &&
+          Object.keys(transactionData[0]).length > 0 &&
+          Object.keys(transactionData[1]).length > 0
+        ) {
+          setReturnTransaction(transactionData);
+        }
       }
     };
-
     fetchData();
-  }, [infoBank]);
+  }, [infoTransaction]);
 
   return (
     <>
       <div>
-        <div>Total</div>
-        <div>
-          <div>Ingresos</div>
-          <div>Egresos</div>
-        </div>
+        {infoReturnTransaction && (
+          <>
+            <div>{infoReturnTransaction[1]["total"]}</div>
+            <div>
+              <div>{infoReturnTransaction[1]["ingreso"]}</div>
+              <div>{infoReturnTransaction[1]["egreso"]}</div>
+            </div>
+          </>
+        )}
+
         <div className="p-4">
           <h1 className="text-xl font-bold mb-4">Bank</h1>
           <div className="overflow-x-auto">
             <table className="table-auto w-full border-collapse">
               <tbody>
-                {Object.entries(infoReturnAccount ?? {}).map(
-                  ([account_id, link]) => (
-                    <tr
-                      key={account_id}
-                      onClick={() => handleAccountName(link[0], account_id)}
-                      className="hover:bg-gray-100 cursor-pointer"
-                    >
-                      <td className="border px-4 py-2 text-center">
-                        {link[1]}
-                      </td>
-                    </tr>
-                  )
-                )}
+                {infoReturnTransaction &&
+                  infoReturnTransaction.length > 0 &&
+                  Object.entries(infoReturnTransaction[0]).map(
+                    ([item, price]) => (
+                      <tr
+                        key={item}
+                        className="hover:bg-gray-100 cursor-pointer"
+                      >
+                        <td className="border px-4 py-2 text-center">
+                          {item} = {price}
+                        </td>
+                      </tr>
+                    )
+                  )}
               </tbody>
             </table>
           </div>
